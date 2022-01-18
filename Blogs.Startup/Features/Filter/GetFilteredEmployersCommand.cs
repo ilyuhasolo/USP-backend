@@ -1,16 +1,17 @@
-﻿using Blogs.Infrastructure.Database;
+﻿using Blogs.Core.Domain.Model;
+using Blogs.Infrastructure.Database;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Blogs.Startup.Features.Filter
 {
-    public class GetFilteredEmployersCommand : IRequest<IReadOnlyList<Core.Domain.Model.Person?>>
+    public class GetFilteredEmployersCommand : IRequest<IReadOnlyList<Person>>
     {
         public string? Company { get; set; }
         public List<string>? EmployerInterests { get; set; }
     }
 
-    public class GetFilteredEmployersCommandHandler : IRequestHandler<GetFilteredEmployersCommand, IReadOnlyList<Core.Domain.Model.Person?>>
+    public class GetFilteredEmployersCommandHandler : IRequestHandler<GetFilteredEmployersCommand, IReadOnlyList<Person>>
     {
         private BlogContext _blogContext;
 
@@ -19,7 +20,7 @@ namespace Blogs.Startup.Features.Filter
             _blogContext = blogContext;
         }
 
-        public async Task<IReadOnlyList<Core.Domain.Model.Person?>> Handle(GetFilteredEmployersCommand request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<Person>> Handle(GetFilteredEmployersCommand request, CancellationToken cancellationToken)
         {
             var res = await _blogContext.People
                 .Include(p => p.Interests)

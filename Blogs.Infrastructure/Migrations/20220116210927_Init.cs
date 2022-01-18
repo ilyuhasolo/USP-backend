@@ -27,8 +27,8 @@ namespace Blogs.Infrastructure.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Login = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true)
                 },
@@ -58,7 +58,8 @@ namespace Blogs.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(3999)", maxLength: 3999, nullable: false),
-                    PeopleNumber = table.Column<int>(type: "int", nullable: false)
+                    PeopleNumber = table.Column<int>(type: "int", nullable: false),
+                    TeamLeadPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -201,24 +202,25 @@ namespace Blogs.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PersonTeam",
+                name: "Lineups",
                 columns: table => new
                 {
-                    PeopleId = table.Column<long>(type: "bigint", nullable: false),
-                    TeamsId = table.Column<long>(type: "bigint", nullable: false)
+                    PersonId = table.Column<long>(type: "bigint", nullable: false),
+                    TeamId = table.Column<long>(type: "bigint", nullable: false),
+                    Accepted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PersonTeam", x => new { x.PeopleId, x.TeamsId });
+                    table.PrimaryKey("PK_Lineups", x => new { x.PersonId, x.TeamId });
                     table.ForeignKey(
-                        name: "FK_PersonTeam_People_PeopleId",
-                        column: x => x.PeopleId,
+                        name: "FK_Lineups_People_PersonId",
+                        column: x => x.PersonId,
                         principalTable: "People",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PersonTeam_Teams_TeamsId",
-                        column: x => x.TeamsId,
+                        name: "FK_Lineups_Teams_TeamId",
+                        column: x => x.TeamId,
                         principalTable: "Teams",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -265,14 +267,14 @@ namespace Blogs.Infrastructure.Migrations
                 column: "TeamsId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Lineups_TeamId",
+                table: "Lineups",
+                column: "TeamId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PersonRole_RolesId",
                 table: "PersonRole",
                 column: "RolesId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PersonTeam_TeamsId",
-                table: "PersonTeam",
-                column: "TeamsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoleTeam_TeamsId",
@@ -304,10 +306,10 @@ namespace Blogs.Infrastructure.Migrations
                 name: "InterestTeam");
 
             migrationBuilder.DropTable(
-                name: "PersonRole");
+                name: "Lineups");
 
             migrationBuilder.DropTable(
-                name: "PersonTeam");
+                name: "PersonRole");
 
             migrationBuilder.DropTable(
                 name: "RoleTeam");

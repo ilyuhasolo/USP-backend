@@ -1,10 +1,14 @@
-﻿using Blogs.Startup.Features.Team;
+﻿using Blogs.Startup.Features.Teams;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Blogs.Core.Domain.Model;
 
 namespace Blogs.Startup.Controllers
 {
-    public class TeamController : Controller
+    [ApiController]
+    [Authorize]
+    public class TeamController : ControllerBase
     {
         private readonly IMediator _mediator;
 
@@ -15,26 +19,50 @@ namespace Blogs.Startup.Controllers
 
         [HttpPost]
         [Route("~/CreateNewTeam")]
-        public async Task<IActionResult> CreateNewTeam(CreateNewTeamCommand request, CancellationToken cancellationToken)
+        public async Task<long> CreateNewTeam(CreateNewTeamCommand request, CancellationToken cancellationToken)
         {
-            await _mediator.Send(request, cancellationToken);
-            return Ok();
+            var result = await _mediator.Send(request, cancellationToken);
+            return result;
         }
 
         [HttpGet]
         [Route("~/GetTeamById")]
-        public async Task<IActionResult> GetTeamById(GetTeamByIdCommand request, CancellationToken cancellationToken)
+        public async Task<Team> GetTeamById([FromQuery] GetTeamByIdCommand request, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(request, cancellationToken);
-            return Ok(result);
+            return result;
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("~/AddPersonToTeam")]
-        public async Task<IActionResult> AddPersonToTeam(AddPersonToTeamCommand request, CancellationToken cancellationToken)
+        public async Task<IActionResult> AddPersonToTeam([FromQuery] AddPersonToTeamCommand request, CancellationToken cancellationToken)
         {
-            await _mediator.Send(request, cancellationToken);
-            return Ok();
+            var result = await _mediator.Send(request, cancellationToken);
+            return result ? Ok() : BadRequest();
+        }
+
+        [HttpPut]
+        [Route("~/SendRequestToTeam")]
+        public async Task<IActionResult> SendRequestToTeam([FromQuery] SendRequestToTeamCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(request, cancellationToken);
+            return result ? Ok() : BadRequest();
+        }
+
+        [HttpDelete]
+        [Route("~/RemovePersonFromTeam")]
+        public async Task<IActionResult> RemovePersonFromTeam([FromQuery] RemovePersonFromTeamCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(request, cancellationToken);
+            return result ? Ok() : NotFound();
+        }
+
+        [HttpDelete]
+        [Route("~/DeleteTeam")]
+        public async Task<IActionResult> DeleteTeam([FromQuery] DeleteTeamCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(request, cancellationToken);
+            return result ? Ok() : NotFound();
         }
     }
 }

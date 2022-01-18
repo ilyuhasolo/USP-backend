@@ -1,15 +1,16 @@
-﻿using Blogs.Infrastructure.Database;
+﻿using Blogs.Core.Domain.Model;
+using Blogs.Infrastructure.Database;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Blogs.Startup.Features.Student
+namespace Blogs.Startup.Features.Profile
 {
-    public class GetStudentInfoCommand : IRequest<Core.Domain.Model.Student?>
+    public class GetStudentInfoCommand : IRequest<Student?>
     {
         public long PersonId { get; set; }
     }
 
-    public class GetStudentInfoCommandHandler : IRequestHandler<GetStudentInfoCommand, Core.Domain.Model.Student?>
+    public class GetStudentInfoCommandHandler : IRequestHandler<GetStudentInfoCommand, Student?>
     {
         private BlogContext _blogContext;
 
@@ -18,7 +19,7 @@ namespace Blogs.Startup.Features.Student
             _blogContext = blogContext;
         }
 
-        public async Task<Core.Domain.Model.Student?> Handle(GetStudentInfoCommand request, CancellationToken cancellationToken)
+        public async Task<Student?> Handle(GetStudentInfoCommand request, CancellationToken cancellationToken)
         {
             return await _blogContext.Students.FirstOrDefaultAsync(s => s.PersonId == request.PersonId);
         }

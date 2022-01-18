@@ -8,8 +8,8 @@ namespace Blogs.Infrastructure.Database.TypeConfigurations
     {
         public void Configure(EntityTypeBuilder<Person> builder)
         {
-            builder.Property(x => x.Login).HasMaxLength(30);
-            builder.Property(x => x.Password).HasMaxLength(30);
+            builder.Property(x => x.Name).HasMaxLength(30);
+            builder.Property(x => x.Password).HasMaxLength(70);
             builder.Property(x => x.PhoneNumber).HasMaxLength(12);
             builder.Property(x => x.Email).HasMaxLength(30);
 
@@ -21,7 +21,21 @@ namespace Blogs.Infrastructure.Database.TypeConfigurations
                 .WithMany(x => x.People);
             builder
                 .HasMany(x => x.Teams)
-                .WithMany(x => x.People);
+                .WithMany(x => x.People)
+                .UsingEntity<Lineup>(
+                x => x
+                    .HasOne(pt => pt.Team)
+                    .WithMany(t => t.Lineups)
+                    .HasForeignKey(pt => pt.TeamId),
+                x => x
+                    .HasOne(pt => pt.Person)
+                    .WithMany(t => t.Lineups)
+                    .HasForeignKey(pt => pt.PersonId),
+                x =>
+                {
+                    x.HasKey(t => new { t.PersonId, t.TeamId });
+                    x.ToTable("Lineups");
+                });
 
             builder
                 .HasOne(x => x.Student)

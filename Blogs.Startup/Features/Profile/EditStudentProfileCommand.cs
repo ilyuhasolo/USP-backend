@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Blogs.Startup.Features.Student
+namespace Blogs.Startup.Features.Profile
 {
     public class EditStudentProfileCommand : IRequest<bool>
     {

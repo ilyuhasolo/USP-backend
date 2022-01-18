@@ -4,6 +4,7 @@ namespace Blogs.Core.Domain.Model
 {
     public class Employer
     {
+        [JsonIgnore]
         public long Id { get; set; }
         public string Company { get; set; }
         public string Presentation { get; set; }

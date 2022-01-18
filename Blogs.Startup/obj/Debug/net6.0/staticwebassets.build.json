@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "KeBH7s8qR0ii0xgPjGy50op/DorN9NHWM6Pbo+4NoPg=",
+  "Hash": "dRXrDHk6ez04/CYfHTJq/icUWjFgbukV9NRd/xjtfgU=",
   "Source": "Blogs.Startup",
   "BasePath": "_content/Blogs.Startup",
   "Mode": "Default",
@@ -15,74 +15,5 @@
       "Pattern": "**"
     }
   ],
-  "Assets": [
-    {
-      "Identity": "C:\\Users\\mrcur\\Desktop\\this-not-news\\src\\server\\Blogs.Startup\\wwwroot\\app.bundle.js",
-      "SourceId": "Blogs.Startup",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\mrcur\\Desktop\\this-not-news\\src\\server\\Blogs.Startup\\wwwroot\\",
-      "BasePath": "_content/Blogs.Startup",
-      "RelativePath": "app.bundle.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\app.bundle.js"
-    },
-    {
-      "Identity": "C:\\Users\\mrcur\\Desktop\\this-not-news\\src\\server\\Blogs.Startup\\wwwroot\\app.bundle.js.LICENSE.txt",
-      "SourceId": "Blogs.Startup",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\mrcur\\Desktop\\this-not-news\\src\\server\\Blogs.Startup\\wwwroot\\",
-      "BasePath": "_content/Blogs.Startup",
-      "RelativePath": "app.bundle.js.LICENSE.txt",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\app.bundle.js.LICENSE.txt"
-    },
-    {
-      "Identity": "C:\\Users\\mrcur\\Desktop\\this-not-news\\src\\server\\Blogs.Startup\\wwwroot\\index.html",
-      "SourceId": "Blogs.Startup",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\mrcur\\Desktop\\this-not-news\\src\\server\\Blogs.Startup\\wwwroot\\",
-      "BasePath": "_content/Blogs.Startup",
-      "RelativePath": "index.html",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\index.html"
-    },
-    {
-      "Identity": "C:\\Users\\mrcur\\Desktop\\this-not-news\\src\\server\\Blogs.Startup\\wwwroot\\style.css",
-      "SourceId": "Blogs.Startup",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\mrcur\\Desktop\\this-not-news\\src\\server\\Blogs.Startup\\wwwroot\\",
-      "BasePath": "_content/Blogs.Startup",
-      "RelativePath": "style.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\style.css"
-    }
-  ]
+  "Assets": []
 }

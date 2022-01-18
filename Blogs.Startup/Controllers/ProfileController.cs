@@ -1,15 +1,14 @@
-using Blogs.Startup.Features.Person;
-using Blogs.Startup.Features.Student;
-using Blogs.Startup.Features.Teacher;
-using Blogs.Startup.Features.Employer;
+using Blogs.Startup.Features.Profile;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Blogs.Core.Domain.Model;
 
 namespace Blogs.Startup.Controllers
 {
+    [ApiController]
     [Authorize]
-    public class ProfileController : Controller
+    public class ProfileController : ControllerBase
     {
         private readonly IMediator _mediator;
 
@@ -22,34 +21,88 @@ namespace Blogs.Startup.Controllers
 
         [HttpGet]
         [Route("~/GetPersonInfo")]
-        public async Task<IActionResult> GetPersonInfo(GetPersonInfoCommand request, CancellationToken cancellationToken)
+        public async Task<Person> GetPersonInfo([FromQuery] GetPersonInfoCommand request, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(request, cancellationToken);
-            return result is null ? NotFound("¬ведено неверное им€ пользовател€") : Ok(result);
+            return result;
         }
 
         [HttpPost]
         [Route("~/AddInterestToPerson")]
         public async Task<IActionResult> AddInterestToPerson(AddInterestToPersonCommand request, CancellationToken cancellationToken)
         {
-            await _mediator.Send(request, cancellationToken);
-            return Ok();
+            var result = await _mediator.Send(request, cancellationToken);
+            return result ? Ok() : BadRequest();
+        }
+
+        [HttpPost]
+        [Route("~/AddRoleToPerson")]
+        public async Task<IActionResult> AddRoleToPerson(AddRoleToPersonCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(request, cancellationToken);
+            return result ? Ok() : BadRequest();
+        }
+
+        [HttpGet]
+        [Route("~/GetRolesByPersonId")]
+        public async Task<IReadOnlyList<Role>> GetRolesByPersonId([FromQuery] GetRolesByPersonIdCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(request, cancellationToken);
+            return result;
+        }
+
+        [HttpGet]
+        [Route("~/GetInterestsByPersonId")]
+        public async Task<IReadOnlyList<Interest>> GetInterestsByPersonId([FromQuery] GetInterestsByPersonIdCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(request, cancellationToken);
+            return result;
+        }
+
+        [HttpGet]
+        [Route("~/GetTeamsByPersonId")]
+        public async Task<IReadOnlyList<Team>> GetTeamsByPersonId([FromQuery] GetTeamsByPersonIdCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(request, cancellationToken);
+            return result;
+        }
+
+        [HttpDelete]
+        [Route("~/DeletePerson")]
+        public async Task<IActionResult> DeletePerson([FromQuery] DeletePersonCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(request, cancellationToken);
+            return result ? Ok() : NotFound();
+        }
+
+        [HttpDelete]
+        [Route("~/RemovePersonInterest")]
+        public async Task<IActionResult> RemovePersonInterest([FromQuery] RemovePersonInterestCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(request, cancellationToken);
+            return result ? Ok() : NotFound();
+        }
+
+        [HttpDelete]
+        [Route("~/RemovePersonRole")]
+        public async Task<IActionResult> RemovePersonRole([FromQuery] RemovePersonRoleCommand request, CancellationToken cancellationToken)
+        {
+            var result = await _mediator.Send(request, cancellationToken);
+            return result ? Ok() : NotFound();
         }
 
         #endregion
         #region Student
 
-        [Authorize(Roles = "Student")]
         [HttpGet]
         [Route("~/GetStudentInfo")]
-        public async Task<IActionResult> GetStudentInfo(GetStudentInfoCommand request, CancellationToken cancellationToken)
+        public async Task<Student> GetStudentInfo([FromQuery]GetStudentInfoCommand request, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(request, cancellationToken);
-            return result is null ? NotFound() : Ok(result);
+            return result;
         }
 
-        [Authorize(Roles = "Student")]
-        [HttpPut]
+        [HttpPost]
         [Route("~/EditStudentProfile")]
         public async Task<IActionResult> EditStudentProfile(EditStudentProfileCommand request, CancellationToken cancellationToken)
         {
@@ -60,17 +113,15 @@ namespace Blogs.Startup.Controllers
         #endregion
         #region Teacher
 
-        [Authorize(Roles = "Teacher")]
         [HttpGet]
         [Route("~/GetTeacherInfo")]
-        public async Task<IActionResult> GetTeacherInfo(GetTeacherInfoCommand request, CancellationToken cancellationToken)
+        public async Task<Teacher> GetTeacherInfo([FromQuery] GetTeacherInfoCommand request, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(request, cancellationToken);
-            return result is null ? NotFound() : Ok(result);
+            return result;
         }
 
-        [Authorize(Roles = "Teacher")]
-        [HttpPut]
+        [HttpPost]
         [Route("~/EditTeacherProfile")]
         public async Task<IActionResult> EditTeacherProfile(EditTeacherProfileCommand request, CancellationToken cancellationToken)
         {
@@ -81,17 +132,15 @@ namespace Blogs.Startup.Controllers
         #endregion
         #region Employer
 
-        [Authorize(Roles = "Employer")]
         [HttpGet]
         [Route("~/GetEmployerInfo")]
-        public async Task<IActionResult> GetEmployerInfo(GetEmployerInfoCommand request, CancellationToken cancellationToken)
+        public async Task<Employer> GetEmployerInfo([FromQuery] GetEmployerInfoCommand request, CancellationToken cancellationToken)
         {
             var result = await _mediator.Send(request, cancellationToken);
-            return result is null ? NotFound() : Ok(result);
+            return result;
         }
 
-        [Authorize(Roles = "Employer")]
-        [HttpPut]
+        [HttpPost]
         [Route("~/EditEmployerProfile")]
         public async Task<IActionResult> EditEmployerProfile(EditEmployerProfileCommand request, CancellationToken cancellationToken)
         {

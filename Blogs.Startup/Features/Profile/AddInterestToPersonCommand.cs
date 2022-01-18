@@ -2,12 +2,12 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Blogs.Startup.Features.Person
+namespace Blogs.Startup.Features.Profile
 {
     public class AddInterestToPersonCommand : IRequest<bool>
     {
         public long PersonId { get; set; }
-        public long InterestId { get; set; }
+        public string Interest { get; set; }
     }
 
     public class AddInterestToPersonCommandHandler : IRequestHandler<AddInterestToPersonCommand, bool>
@@ -22,9 +22,10 @@ namespace Blogs.Startup.Features.Person
         public async Task<bool> Handle(AddInterestToPersonCommand request, CancellationToken cancellationToken)
         {
             var person = await _blogContext.People.FirstAsync(p => p.Id == request.PersonId);
-            var interest = await _blogContext.Interests.FirstAsync(i => i.Id == request.InterestId);
+            var interest = await _blogContext.Interests.FirstOrDefaultAsync(i => i.InterestName == request.Interest);
 
-            person.Interests.Add(interest);
+            if (interest != null)
+                person.Interests.Add(interest);
 
             return await _blogContext.SaveChangesAsync() > 0;
         }

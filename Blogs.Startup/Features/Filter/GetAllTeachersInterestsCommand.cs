@@ -29,6 +29,7 @@ namespace Blogs.Startup.Features.Filter
             return res
                 .Where(p => p.Teacher != null)
                 .SelectMany(p => p.Interests)
+                .Distinct()
                 .ToList();
         }
     }

@@ -5,13 +5,15 @@ namespace Blogs.Core.Domain.Model
     public class Person
     {
         public long Id { get; set; }
-        public string Login { get; set; }
+        public string Name { get; set; }
         public string Password { get; set; }
         public string PhoneNumber { get; set; }
         public string? Email { get; set; }
 
         public List<Interest> Interests { get; set; }
         public List<Role> Roles { get; set; }
+        [JsonIgnore]
+        public List<Lineup> Lineups { get; set; }
 
         [JsonIgnore]
         public List<Team> Teams { get; set; }
@@ -27,6 +29,7 @@ namespace Blogs.Core.Domain.Model
             Interests = new List<Interest>();
             Roles = new List<Role>();
             Teams = new List<Team>();
+            Lineups = new List<Lineup>();
         }
     }
 }

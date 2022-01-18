@@ -6,6 +6,7 @@ namespace Blogs.Startup.Features.Filter
 {
     public class GetAllTeamsNamesCommand : IRequest<IReadOnlyList<string>>
     {
+
     }
 
     public class GetAllTeamsNamesCommandHandler : IRequestHandler<GetAllTeamsNamesCommand, IReadOnlyList<string>>

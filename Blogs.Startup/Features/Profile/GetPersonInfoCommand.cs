@@ -1,17 +1,16 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using Blogs.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
+using Blogs.Core.Domain.Model;
 
-namespace Blogs.Startup.Features.Person
+namespace Blogs.Startup.Features.Profile
 {
-    public class GetPersonInfoCommand : IRequest<Core.Domain.Model.Person?>
+    public class GetPersonInfoCommand : IRequest<Person?>
     {
-        [FromQuery]
         public long Id { get; set; }
     }
 
-    public class GetPersonInfoHandler : IRequestHandler<GetPersonInfoCommand, Core.Domain.Model.Person?>
+    public class GetPersonInfoHandler : IRequestHandler<GetPersonInfoCommand, Person?>
     {
         private readonly BlogContext _blogContext;
 

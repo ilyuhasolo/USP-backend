@@ -1,15 +1,16 @@
-﻿using Blogs.Infrastructure.Database;
+﻿using Blogs.Core.Domain.Model;
+using Blogs.Infrastructure.Database;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Blogs.Startup.Features.Teacher
+namespace Blogs.Startup.Features.Profile
 {
-    public class GetTeacherInfoCommand : IRequest<Core.Domain.Model.Teacher?>
+    public class GetTeacherInfoCommand : IRequest<Teacher?>
     {
         public long PersonId { get; set; }
     }
 
-    public class GetTeacherInfoCommandHandler : IRequestHandler<GetTeacherInfoCommand, Core.Domain.Model.Teacher?>
+    public class GetTeacherInfoCommandHandler : IRequestHandler<GetTeacherInfoCommand, Teacher?>
     {
         private BlogContext _blogContext;
 
@@ -18,7 +19,7 @@ namespace Blogs.Startup.Features.Teacher
             _blogContext = blogContext;
         }
 
-        public async Task<Core.Domain.Model.Teacher?> Handle(GetTeacherInfoCommand request, CancellationToken cancellationToken)
+        public async Task<Teacher?> Handle(GetTeacherInfoCommand request, CancellationToken cancellationToken)
         {
             return await _blogContext.Teachers.FirstOrDefaultAsync(s => s.PersonId == request.PersonId);
         }

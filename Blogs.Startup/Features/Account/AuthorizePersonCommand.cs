@@ -4,11 +4,11 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace Blogs.Startup.Features.Person
+namespace Blogs.Startup.Features.Account
 {
     public class AuthorizePersonCommand : IRequest<AuthResponse?>
     {
-        public string Login { get; set; }
+        public string Name { get; set; }
         public string Password { get; set; }
     }
 
@@ -50,7 +50,7 @@ namespace Blogs.Startup.Features.Person
         private ClaimsIdentity? GetIdentity(AuthorizePersonCommand request)
         {
             Core.Domain.Model.Person? person = _blogContext.People
-                .FirstOrDefault(x => x.Login == request.Login && x.Password == request.Password);
+                .FirstOrDefault(x => x.Name == request.Name && x.Password == request.Password);
             if (person != null)
             {
                 var student = _blogContext.Students.FirstOrDefault(s => s.Person == person);

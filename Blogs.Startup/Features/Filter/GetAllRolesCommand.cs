@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Blogs.Startup.Features.Filter
 {
-    public class GetAllRolesCommand : IRequest<IReadOnlyList<Core.Domain.Model.Role>>
+    public class GetAllRolesCommand : IRequest<IReadOnlyList<Role>>
     {
     }
 
-    public class GetAllRolesCommandHandler : IRequestHandler<GetAllRolesCommand, IReadOnlyList<Core.Domain.Model.Role>>
+    public class GetAllRolesCommandHandler : IRequestHandler<GetAllRolesCommand, IReadOnlyList<Role>>
     {
         private BlogContext _blogContext;
 
@@ -18,7 +18,7 @@ namespace Blogs.Startup.Features.Filter
             _blogContext = blogContext;
         }
 
-        public async Task<IReadOnlyList<Core.Domain.Model.Role>> Handle(GetAllRolesCommand request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<Role>> Handle(GetAllRolesCommand request, CancellationToken cancellationToken)
         {
             return await _blogContext.Roles.ToListAsync();
         }

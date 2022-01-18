@@ -4,6 +4,7 @@ namespace Blogs.Core.Domain.Model
 {
     public class Student
     {
+        [JsonIgnore]
         public long Id { get; set; }
         public string Group { get; set; }
         public string About { get; set; }

@@ -27,6 +27,7 @@ namespace Blogs.Startup.Features.Filter
 
             return res
                 .SelectMany(t => t.Interests)
+                .Distinct()
                 .ToList();
         }
     }

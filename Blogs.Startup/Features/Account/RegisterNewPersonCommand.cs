@@ -1,11 +1,11 @@
 ﻿using Blogs.Infrastructure.Database;
 using MediatR;
 
-namespace Blogs.Startup.Features.Person
+namespace Blogs.Startup.Features.Account
 {
     public class RegisterNewPersonCommand : IRequest<bool>
     {
-        public string Login { get; set; }
+        public string Name { get; set; }
         public string Password { get; set; }
         public string PhoneNumber { get; set; }
         public string? Email { get; set; }
@@ -31,7 +31,7 @@ namespace Blogs.Startup.Features.Person
         {
             var person = new Core.Domain.Model.Person()
             {
-                Login = request.Login,
+                Name = request.Name,
                 Password = request.Password,
                 PhoneNumber = request.PhoneNumber,
                 Email = request.Email,

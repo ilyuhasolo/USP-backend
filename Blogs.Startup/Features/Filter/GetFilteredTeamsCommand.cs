@@ -1,17 +1,18 @@
-﻿using Blogs.Infrastructure.Database;
+﻿using Blogs.Core.Domain.Model;
+using Blogs.Infrastructure.Database;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Blogs.Startup.Features.Filter
 {
-    public class GetFilteredTeamsCommand : IRequest<IReadOnlyList<Core.Domain.Model.Team>>
+    public class GetFilteredTeamsCommand : IRequest<IReadOnlyList<Team>>
     {
         public List<string>? TeamInterests { get; set; }
         public string? TeamName { get; set; }
         public List<string>? TeamVacantRoles { get; set; }
     }
 
-    public class GetFilteredTeamsCommandHandler : IRequestHandler<GetFilteredTeamsCommand, IReadOnlyList<Core.Domain.Model.Team>>
+    public class GetFilteredTeamsCommandHandler : IRequestHandler<GetFilteredTeamsCommand, IReadOnlyList<Team>>
     {
         private BlogContext _blogContext;
 
@@ -20,7 +21,7 @@ namespace Blogs.Startup.Features.Filter
             _blogContext = blogContext;
         }
 
-        public async Task<IReadOnlyList<Core.Domain.Model.Team>> Handle(GetFilteredTeamsCommand request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<Team>> Handle(GetFilteredTeamsCommand request, CancellationToken cancellationToken)
         {
             var res =  await _blogContext.Teams
                 .Include(t => t.Interests)

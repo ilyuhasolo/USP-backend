@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Blogs.Infrastructure.Migrations
 {
     [DbContext(typeof(BlogContext))]
-    [Migration("20220107141127_Init")]
+    [Migration("20220116210927_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,6 +70,24 @@ namespace Blogs.Infrastructure.Migrations
                     b.ToTable("Interests");
                 });
 
+            modelBuilder.Entity("Blogs.Core.Domain.Model.Lineup", b =>
+                {
+                    b.Property<long>("PersonId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("TeamId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("Accepted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("PersonId", "TeamId");
+
+                    b.HasIndex("TeamId");
+
+                    b.ToTable("Lineups", (string)null);
+                });
+
             modelBuilder.Entity("Blogs.Core.Domain.Model.Person", b =>
                 {
                     b.Property<long>("Id")
@@ -82,15 +100,15 @@ namespace Blogs.Infrastructure.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<string>("Login")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasMaxLength(70)
+                        .HasColumnType("nvarchar(70)");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
@@ -199,6 +217,10 @@ namespace Blogs.Infrastructure.Migrations
                     b.Property<int>("PeopleNumber")
                         .HasColumnType("int");
 
+                    b.Property<string>("TeamLeadPhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Teams");
@@ -249,21 +271,6 @@ namespace Blogs.Infrastructure.Migrations
                     b.ToTable("PersonRole");
                 });
 
-            modelBuilder.Entity("PersonTeam", b =>
-                {
-                    b.Property<long>("PeopleId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("TeamsId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("PeopleId", "TeamsId");
-
-                    b.HasIndex("TeamsId");
-
-                    b.ToTable("PersonTeam");
-                });
-
             modelBuilder.Entity("RoleTeam", b =>
                 {
                     b.Property<long>("RolesId")
@@ -288,6 +295,25 @@ namespace Blogs.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Person");
+                });
+
+            modelBuilder.Entity("Blogs.Core.Domain.Model.Lineup", b =>
+                {
+                    b.HasOne("Blogs.Core.Domain.Model.Person", "Person")
+                        .WithMany("Lineups")
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Blogs.Core.Domain.Model.Team", "Team")
+                        .WithMany("Lineups")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Person");
+
+                    b.Navigation("Team");
                 });
 
             modelBuilder.Entity("Blogs.Core.Domain.Model.Student", b =>
@@ -357,21 +383,6 @@ namespace Blogs.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PersonTeam", b =>
-                {
-                    b.HasOne("Blogs.Core.Domain.Model.Person", null)
-                        .WithMany()
-                        .HasForeignKey("PeopleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Blogs.Core.Domain.Model.Team", null)
-                        .WithMany()
-                        .HasForeignKey("TeamsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("RoleTeam", b =>
                 {
                     b.HasOne("Blogs.Core.Domain.Model.Role", null)
@@ -391,9 +402,16 @@ namespace Blogs.Infrastructure.Migrations
                 {
                     b.Navigation("Employer");
 
+                    b.Navigation("Lineups");
+
                     b.Navigation("Student");
 
                     b.Navigation("Teacher");
+                });
+
+            modelBuilder.Entity("Blogs.Core.Domain.Model.Team", b =>
+                {
+                    b.Navigation("Lineups");
                 });
 #pragma warning restore 612, 618
         }
